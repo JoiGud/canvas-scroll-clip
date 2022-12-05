@@ -74,16 +74,15 @@ export class Canvas extends Options {
     this._canvas.classList.add(`${this.identifier}-canvas`);
     this._canvas.style.setProperty('display', 'block');
     this._canvas.style.setProperty('max-height', '100%');
-    this._canvas.style.setProperty('max-width', '100%');
+
     this._canvas.style.setProperty('object-fit', 'cover');
     this._canvas.style.setProperty("height", "100vh");
-    this._canvas.style.setProperty("width", "100%");
+    
+    
 
     // Create wrapper container
     this._wrapper = document.createElement('div')
     this._wrapper.classList.add(this.identifier);
-    this._wrapper.style.setProperty('position', 'sticky');
-    this._wrapper.style.setProperty('top', '0');
     this._wrapper.appendChild(this._canvas);
 
     // Output template
@@ -103,8 +102,9 @@ export class Canvas extends Options {
 
     // Bind scroll event
     this.events.on(utils.AppEvent.viewport.scroll, (scrollTop) => {
-      if (!this.loading)
+      if (!this.loading) {
         this.drawImageByScrollFraction(utils.getScrollFraction(this.viewport, scrollTop));
+      }
     });
 
     // Preload Images
@@ -142,7 +142,8 @@ export class Canvas extends Options {
         ...this.viewport,
         width: this.images[0]?.width,
         height: this.images[0]?.height,
-        top: this._container.getBoundingClientRect().top + utils.getScrollTop() || 0,
+        // TODO: fix this hardcoding, this is the headerheight.
+        top: 126, //this._container.getBoundingClientRect().top + utils.getScrollTop() || 0,
         bottom: this._container.getBoundingClientRect().bottom + utils.getScrollTop() || this.screen.height
       };
 
